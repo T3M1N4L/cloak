@@ -55,27 +55,37 @@
       }
 
       function cloak(url) {
-        let win = window.open();
-        win.document.body.style.margin = '0';
-        win.document.body.style.height = '100%';
-        let iframe = win.document.createElement('iframe');
-        iframe.style.border = 'none';
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.margin = '0';
-        const timestamp = new Date().getTime();
-        const randomNum = Math.random().toString(36).substring(7);
-        iframe.src = url + "?nocache=" + timestamp + "-" + randomNum;
-        let title = win.document.createElement('title');
-        title.textContent = 'Google Drive';
-        win.document.head.appendChild(title);
-        let favicon = win.document.createElement('link');
-        favicon.rel = 'shortcut icon';
-        favicon.href = 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png';
-        win.document.head.appendChild(favicon);
-        win.document.body.appendChild(iframe);
-        location.replace("https://drive.google.com");
-      }
+    let win = window.open();
+    win.document.body.style.margin = '0';
+    win.document.body.style.height = '100%';
+
+    let iframe = win.document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.top = '0';
+    iframe.style.right = '0';
+    iframe.style.left = '0';
+    iframe.style.bottom = '0';
+    iframe.style.border = 'none';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.sandbox = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation";
+
+    const timestamp = new Date().getTime();
+    const randomNum = Math.random().toString(36).substring(7);
+    iframe.src = url + "?nocache=" + timestamp + "-" + randomNum;
+
+    let title = win.document.createElement('title');
+    title.textContent = 'Google Drive';
+    win.document.head.appendChild(title);
+
+    let favicon = win.document.createElement('link');
+    favicon.rel = 'shortcut icon';
+    favicon.href = 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png';
+    win.document.head.appendChild(favicon);
+
+    win.document.body.appendChild(iframe);
+    location.replace("https://drive.google.com");
+}
 
       function scrollToBottom() {
         const terminalContainer = document.getElementById('terminal-container');
