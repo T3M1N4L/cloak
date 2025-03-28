@@ -1,10 +1,18 @@
 [
     {
         "url": "https://t3rm1n4l.dev",
-        "password": "vro"
+        "password": "t3rm1n4l"
     },
     {
-        "url": "https://example.com",
-        "password": "secure123"
+        "url": "https://run3.t3rm1n4l.dev",
+        "password": "run3"
+    },
+    {
+        "url": "https://resent.t3rm1n4l.dev",
+        "password": "resent"
+    },
+    {
+        "url": "https://astra.t3rm1n4l.dev",
+        "password": "astra"
     }
 ]
