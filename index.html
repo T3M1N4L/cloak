@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+  <title>Authentication Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="retro"></div>
+  <center>
+    <h1 style="font-size:50px; margin:0 !important;">Authentication Portal</h1>
+    <small>provide a correct password to use this service</small>
+  </center>
+  <hr>
+  <sus>
+  <div id="terminal-container">
+    <div id="terminal"></div>
+  </div>
+</sus>
+
+  <script>// Function to create the password input field
+
+      function createInput() {
+        const terminal = document.getElementById('terminal');
+        const inputWrapper = document.createElement('div');
+        inputWrapper.innerHTML = "> Enter password: <input type='password' id='password' autofocus>";
+        terminal.appendChild(inputWrapper);
+        document.getElementById('password').addEventListener('keypress', handleKeyPress);
+        scrollToBottom();
+        keepFocus();
+      }
+      async function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+          const inputPassword = event.target.value;
+          event.target.remove();
+          const response = await fetch('config.json');
+          const data = await response.json();
+          const entry = data.find(item => item.password === inputPassword);
+          const terminal = document.getElementById('terminal');
+          if (entry) {
+            terminal.innerHTML += "\n<span style='color:oklch(var(--color));'>Access granted.</span> Launching...\n";
+            scrollToBottom();
+            setTimeout(() => {
+              cloak(entry.url);
+              terminal.innerHTML += "\nLaunched.\n";
+              createInput();
+            }, 1000);
+          } else {
+            terminal.innerHTML += "<span style='color:oklch(var(--red))'>\nAccess denied.</span> Invalid password.\n";
+            createInput();
+          }
+        }
+      }
+
+      function cloak(url) {
+        let win = window.open();
+        win.document.body.style.margin = '0';
+        win.document.body.style.height = '100%';
+        let iframe = win.document.createElement('iframe');
+        iframe.style.border = 'none';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.margin = '0';
+        const timestamp = new Date().getTime();
+        const randomNum = Math.random().toString(36).substring(7);
+        iframe.src = url + "?nocache=" + timestamp + "-" + randomNum;
+        let title = win.document.createElement('title');
+        title.textContent = 'Google Drive';
+        win.document.head.appendChild(title);
+        let favicon = win.document.createElement('link');
+        favicon.rel = 'shortcut icon';
+        favicon.href = 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png';
+        win.document.head.appendChild(favicon);
+        win.document.body.appendChild(iframe);
+        location.replace("https://drive.google.com");
+      }
+
+      function scrollToBottom() {
+        const terminalContainer = document.getElementById('terminal-container');
+        terminalContainer.scrollTop = terminalContainer.scrollHeight;
+      }
+
+      function keepFocus() {
+        setTimeout(() => {
+          const input = document.getElementById('password');
+          if (input) input.focus();
+        }, 0);
+      }
+      window.addEventListener('focus', keepFocus);
+      createInput();
+  </script>
+</body>
+</html>
