@@ -14,5 +14,9 @@
     {
         "url": "https://astra.t3rm1n4l.dev",
         "password": "astra"
+    },
+    {
+        "url": "https://assessment.t3rm1n4l.dev",
+        "password": "asmnt"
     }
 ]
